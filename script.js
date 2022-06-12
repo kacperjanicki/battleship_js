@@ -16,7 +16,7 @@ for(let i=0;i<=10;i++){
 
 
 function board(){
-    var click_count=0;
+    var click_count=-1;
     const rows = document.querySelectorAll('.row')
     rows.forEach( row=>{
         for(let i=0;i<=10;i++){                     //create 10 buttons in each row
@@ -36,19 +36,30 @@ function board(){
                     }
                 })
 
-                var btns = document.querySelectorAll(`.row[data="${parent_div.getAttribute('data')}"] > button`)
-                btns.forEach(button=>{
-                    var j=0;
-                    for(let i=e.target.getAttribute('data');i<=11; i++){
-                        if(j<=4){
-                            if(button.getAttribute('data')==i){
-                                button.classList.add('target')
-                                user_matrix[parent_div.getAttribute('data')-1][i-1] = 'x'
+                place()
+
+                function place(){
+                    const eventlog = document.createElement('p')
+                    eventlog.textContent = `you are now placing ${Object.keys(ships)[click_count]} (${ships[Object.keys(ships)[click_count]]})`
+                    grid.appendChild(eventlog)
+
+                    var btns = document.querySelectorAll(`.row[data="${parent_div.getAttribute('data')}"] > button`)
+                    btns.forEach(button=>{
+                        var j=0;
+                        
+                        for(let i=e.target.getAttribute('data');i<=11; i++){
+                            if(j<ships[Object.keys(ships)[click_count]]){
+                                if(button.getAttribute('data')==i){
+                                    button.classList.add('target')
+                                    user_matrix[parent_div.getAttribute('data')-1][i-1] = 'x'
+                                }
                             }
+                            
+                            j+=1     
                         }
-                        j+=1     
-                    }
-                })
+                    })
+                    
+                }    
                 console.log(Array.from(user_matrix))
             })
         }
