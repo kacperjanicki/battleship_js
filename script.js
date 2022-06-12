@@ -13,9 +13,19 @@ var user_matrix = []
 for(let i=0;i<=10;i++){
     user_matrix.push(['.','.','.','.','.','.','.','.','.','.','.'])
 }
-
+var switchbtn = document.getElementById("switch")
+ship_rotation='horizontal'
 
 function board(){
+    console.log(ship_rotation)
+    switchbtn.addEventListener('click',()=>{
+        if(switchbtn.textContent!='vertical'){
+            switchbtn.textContent='vertical'
+            ship_rotation='vertical'
+        }
+        console.log(ship_rotation)
+    })
+
     var click_count=-1;
     const rows = document.querySelectorAll('.row')
     rows.forEach( row=>{
@@ -39,9 +49,12 @@ function board(){
                 place()
 
                 function place(){
-                    const eventlog = document.createElement('p')
-                    eventlog.textContent = `you are now placing ${Object.keys(ships)[click_count]} (${ships[Object.keys(ships)[click_count]]})`
-                    grid.appendChild(eventlog)
+                    if(Object.keys(ships)[click_count]){
+                        const eventlog = document.createElement('p')
+                        eventlog.textContent = `you are now placing ${Object.keys(ships)[click_count]} (${ships[Object.keys(ships)[click_count]]})`
+                        grid.appendChild(eventlog)
+                    }
+                        
 
                     var btns = document.querySelectorAll(`.row[data="${parent_div.getAttribute('data')}"] > button`)
                     btns.forEach(button=>{
